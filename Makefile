@@ -1,6 +1,8 @@
 SERVER = server
 CLIENT = client
-NAME = libftprintf.a
+NAME = minitalk
+PRINTFLIBFT = ft_printf/libftprintf.a
+PRINTF = ft_printf
 
 SRCSC = client.c
 SRCSS = server.c
@@ -10,27 +12,27 @@ OBJSS = $(SRCSS:.c=.o)
 CC = cc
 FLAGS = -Wall -Werror -Wextra
 
-all: $(NAME) $(SERVER) $(CLIENT)
+all: $(PRINTFLIBFT) $(SERVER) $(CLIENT)
 
-$(NAME):
-	make -C ft_printf
+$(PRINTFLIBFT):
+	make -C $(PRINTF)
 
 $(SERVER): $(OBJSS)
-	$(CC) $(FLAGS) $(OBJSS) ft_printf/$(NAME) -o $(SERVER)
+	$(CC) $(FLAGS) $(PRINTFLIBFT) -o $@ $(OBJSS)
 
 $(CLIENT): $(OBJSC)
-	$(CC) $(FLAGS) $(OBJSC) ft_printf/$(NAME) -o $(CLIENT)
+	$(CC) $(FLAGS) $(PRINTFLIBFT) -o $@ $(OBJSC)
 
 %.o: %.c
 	$(CC) $(FLAGS) $(SRCSC) -c
 	$(CC) $(FLAGS) $(SRCSS) -c
 
 clean:
-	make clean -C ft_printf
+	make clean -C $(PRINTF)
 	rm -f $(OBJSC) $(OBJSS)
 
 fclean: clean
-	make fclean -C ft_printf
+	make fclean -C $(PRINTF)
 	rm -f $(SERVER) $(CLIENT)
 
 re: fclean all
